@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use Inertia\Inertia;
+
 
 /*
 |--------------------------------------------------------------------------

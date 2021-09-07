@@ -22,15 +22,14 @@
         </style>
     </head>
     <body class="antialiased">
-        <header class="fixed bg-blue-600 shadow-md  z-50 w-full px-5 py-2 flex justify-between items-center">
-            <router-link to="/" class="text-2xl text-white">Admin</router-link>
-            <div>
-                <a href="{{ url('/admin') }}" class="text-white hover:bg-gray-700 px-3 rounded py-1">Admin Panel</router-link>
-            </div>
-        </header>
+        <nav class="navbar navbar-light">
+            <form class="container-fluid justify-content-start">
+                <a href="{{ route('admin.dashboard.index') }}" class="btn btn-dark">Admin Panel</a>
+            </form>
+          </nav>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
-                <div class="hidden fixed top-10 right-0 px-6 py-4 sm:block">
+                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
                     @else
