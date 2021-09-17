@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Validation\Rules;
 use App\Models\User;
 use App\Models\Images;
 use Faker\Provider\Image;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\Rules;
+use Laravel\Sanctum\HasApiTokens;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Validator;
-
-
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -31,6 +37,7 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken("myapptoken")->plainTextToken;
+        
 
         $response = [
             'user' => $user,
@@ -38,6 +45,44 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+    public function login(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $user = User::where('email', $fields['email'])->first();
+        
+        if(!$user || !Hash::check($fields['password'], $user->password)) {
+            return response([
+                'message' => 'Bad Credentials'
+            ], 401);
+        }
+
+        $token = $user->createToken("myapptoken")->plainTextToken;
+        
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+
+    public function logout(Request $request) {
+        
+        /** @var \App\Models\User */
+        $currentUser = Auth::user();
+       
+        $currentUser->tokens()->delete();
+
+        return [
+            'message' => 'Logged out Succesfully'
+        ];
     }
 
     public function uploadImg(Request $request) {
@@ -55,7 +100,7 @@ class AuthController extends Controller
  
             //store your file into database
             $image = new Images();
-            $image->title = $file;
+            $image->path = $file;
             $image->user_id = $request->user_id;
             $image->save();
 
