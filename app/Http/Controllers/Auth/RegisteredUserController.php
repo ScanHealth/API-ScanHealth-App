@@ -47,6 +47,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        $token = $user->createToken('myapp');
+
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

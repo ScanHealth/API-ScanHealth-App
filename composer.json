@@ -11,6 +11,7 @@
         "inertiajs/inertia-laravel": "^0.4.4",
         "laravel/framework": "^8.54",
         "laravel/jetstream": "^2.3",
+        "laravel/passport": "^10.1",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "tightenco/ziggy": "^1.4"
@@ -23,7 +24,8 @@
         "mockery/mockery": "^1.4.2",
         "nascent-africa/jetstrap": "^2.4",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "stephenjude/breeze-api": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
