@@ -40,6 +40,8 @@ class AuthController extends Controller
         
 
         $response = [
+            'error' => false,
+            'message' => "Succes",
             'user' => $user,
             'token' => $token
         ];
@@ -65,6 +67,8 @@ class AuthController extends Controller
         $token = $user->createToken("myapptoken")->plainTextToken;
         
         $response = [
+            'error' => false,
+            'message' => "Succes",
             'user' => $user,
             'token' => $token
         ];
